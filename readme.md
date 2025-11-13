@@ -1,0 +1,189 @@
+# Boeing 737 Manual RAG API (Gemini + FastAPI)
+
+A Retrieval-Augmented Generation (RAG) service for answering questions about Boeing 737 technical manuals using Google Gemini and FastAPI.
+
+The system extracts text from the manual, chunks it semantically, embeds the chunks, retrieves the most relevant parts, and uses Google Gemini to generate accurate, grounded answers.
+
+---
+
+## Features
+
+- **Sentence-based PDF chunking** – Intelligent text segmentation for better context
+- **CSV-based embeddings** – Easy to inspect and version control
+- **Semantic search** – Uses MiniLM embeddings for accurate retrieval
+- **Gemini-powered answers** – Leverages Google's Gemini LLM for generation
+- **FastAPI endpoint** – Returns structured responses with:
+  - `answer`: Grounded response based on manual content
+  - `pages`: List of relevant page numbers (1-based index)
+
+---
+
+## Repository Structure
+
+```
+.
+├── main.py                    # FastAPI application
+├── document_processor.py      # PDF loading and text chunking
+├── embedder.py               # Embedding generation
+├── retriever.py              # Semantic search functionality
+├── generator.py              # Gemini answer generation
+├── config.py                 # Configuration settings
+├── requirements.txt          # Python dependencies
+├── .env.example             # Environment variables template
+├── data/
+│   └── manual.pdf           # Boeing 737 manual (place here)
+└── embeddings/
+    └── chunks.csv           # Generated embeddings (auto-created)
+```
+
+---
+
+## Setup
+
+### Prerequisites
+
+- Python 3.8+
+- Google Gemini API key
+
+
+### 1. Install dependencies
+
+```bash
+pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+```
+
+### 2. Configure environment variables
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Add your Gemini API key to `.env`:
+   ```
+   GEMINI_API_KEY=your_api_key_here
+   ```
+
+### 3. Prepare your manual
+
+Place your Boeing 737 manual PDF in the `data/` directory:
+```
+data/manual.pdf
+```
+
+### 4. Generate embeddings (first-time setup)
+
+Run the following Python script to process the manual and generate embeddings:
+
+```python
+from document_processor import load_pdf, split_sentences, chunk_sentences
+from embedder import compute_embeddings_csv
+from config import PDF_PATH
+
+# Process the PDF
+pages = load_pdf(PDF_PATH)
+pages = split_sentences(pages)
+chunks = chunk_sentences(pages)
+
+# Generate embeddings
+compute_embeddings_csv(chunks)
+```
+
+This generates `embeddings/chunks.csv` containing all embedded text chunks.
+
+---
+
+## 🔧 Usage
+
+### Start the API server
+
+```bash
+uvicorn main:app --reload
+```
+
+The API will be available at `http://localhost:8000`
+
+### API Endpoints
+
+#### `POST /query`
+
+Query the Boeing 737 manual with a question.
+
+**Request body:**
+```json
+{
+  "question": "What is the maximum takeoff weight?"
+}
+```
+
+**Response:**
+```json
+{
+  "answer": "The maximum takeoff weight for the Boeing 737-800 is 174,200 lbs...",
+  "pages": [45, 46, 89]
+}
+```
+
+### Example using curl
+
+```bash
+curl -X POST "http://localhost:8000/query" \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is the maximum takeoff weight?"}'
+```
+
+### Example using Python
+
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/query",
+    json={"question": "What is the maximum takeoff weight?"}
+)
+
+data = response.json()
+print(f"Answer: {data['answer']}")
+print(f"Pages: {data['pages']}")
+```
+
+---
+
+## Configuration
+
+Edit `config.py` to customize:
+
+- **PDF_PATH**: Path to your manual
+- **CHUNK_SIZE**: Number of sentences per chunk
+- **TOP_K**: Number of chunks to retrieve
+- **MODEL_NAME**: Gemini model to use
+
+---
+
+## How It Works
+
+1. **Document Processing**: PDF is loaded and split into sentences using spaCy
+2. **Chunking**: Sentences are grouped into semantic chunks
+3. **Embedding**: Each chunk is embedded using `sentence-transformers/all-MiniLM-L6-v2`
+4. **Storage**: Embeddings are saved to CSV for easy versioning
+5. **Query Processing**: User questions are embedded and matched against chunks
+6. **Retrieval**: Top-K most relevant chunks are retrieved
+7. **Generation**: Gemini generates an answer based on retrieved context
+8. **Response**: Answer and source pages are returned
+
+---
+
+## Dependencies
+
+- `fastapi` – Web framework
+- `uvicorn` – ASGI server
+- `pdfplumber` – PDF text extraction
+- `spacy` – Sentence tokenization
+- `sentence-transformers` – Embeddings
+- `google-generativeai` – Gemini integration
+- `pandas` – CSV handling
+- `python-dotenv` – Environment configuration
+
+---
+
