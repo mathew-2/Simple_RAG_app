@@ -1,4 +1,4 @@
-# Boeing 737 Manual RAG API (Gemini + FastAPI)
+# Boeing 737 Manual RAG API 
 
 A Retrieval-Augmented Generation (RAG) service for answering questions about Boeing 737 technical manuals using Google Gemini and FastAPI.
 
@@ -6,17 +6,6 @@ The system extracts text from the manual, chunks it semantically, embeds the chu
 
 ---
 
-## Features
-
-- **Sentence-based PDF chunking** – Intelligent text segmentation for better context
-- **CSV-based embeddings** – Easy to inspect and version control
-- **Semantic search** – Uses MiniLM embeddings for accurate retrieval
-- **Gemini-powered answers** – Leverages Google's Gemini LLM for generation
-- **FastAPI endpoint** – Returns structured responses with:
-  - `answer`: Grounded response based on manual content
-  - `pages`: List of relevant page numbers (1-based index)
-
----
 
 ## Repository Structure
 
@@ -111,6 +100,7 @@ uvicorn main:app --reload
 ```
 
 The API will be available at `http://localhost:8000`
+So one can run the get query on postman to check and see if the query is giving the right value (json value or not)
 
 ### API Endpoints
 
@@ -128,8 +118,11 @@ Query the Boeing 737 manual with a question.
 **Response:**
 ```json
 {
+  "query" : "What is the maximum takeoff weight?",
   "answer": "The maximum takeoff weight for the Boeing 737-800 is 174,200 lbs...",
-  "pages": [45, 46, 89]
+  "pages": [45, 46, 89],
+  "top_k_values":[0.58,0.43,0.32]
+  ""
 }
 ```
 
