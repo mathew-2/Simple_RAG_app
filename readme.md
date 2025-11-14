@@ -114,7 +114,7 @@ The API will be available at `http://localhost:8000`
 
 ### API Endpoints
 
-#### `POST /query`
+#### `GET /query`
 
 Query the Boeing 737 manual with a question.
 
@@ -131,14 +131,6 @@ Query the Boeing 737 manual with a question.
   "answer": "The maximum takeoff weight for the Boeing 737-800 is 174,200 lbs...",
   "pages": [45, 46, 89]
 }
-```
-
-### Example using curl
-
-```bash
-curl -X POST "http://localhost:8000/query" \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is the maximum takeoff weight?"}'
 ```
 
 ### Example using Python
