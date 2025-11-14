@@ -137,7 +137,6 @@ curl "http://localhost:8000/ask?query=What+is+the+autopilot+system&top_k=10"
    | KEY | VALUE |
    |-----|-------|
    | query | What is the hydraulic system? |
-   | top_k | 5 |
 
 5. **Click "Send"**
 
