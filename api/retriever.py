@@ -40,7 +40,8 @@ def search(query, chunks, embeddings_tensor, top_k=5):
         convert_to_tensor=True,
         device='cpu'  
     )
-    
+    # this sort of problem constantly happens when mixing devices 
+    # another problem also happens that the embedding size of context and query sometimes mix up 
     # Ensure embeddings_tensor is on CPU
     if embeddings_tensor.device.type != 'cpu':
         embeddings_tensor = embeddings_tensor.cpu()
@@ -48,6 +49,8 @@ def search(query, chunks, embeddings_tensor, top_k=5):
     # Ensure query_embedding is on CPU
     if query_embedding.device.type != 'cpu':
         query_embedding = query_embedding.cpu()
+
+    # calcuate similarity scores using dot product and get top k results
     
     # Calculate dot product scores
     dot_scores = util.dot_score(a=query_embedding, b=embeddings_tensor)[0]

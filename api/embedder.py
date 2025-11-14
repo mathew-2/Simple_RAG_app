@@ -69,6 +69,7 @@ def load_embeddings_csv():
     
     chunks = []
     embeddings_list = []
+    # Read CSV and make sure to handle spaces in embeddings so as to seperate the different values correctly
 
     with open(EMBED_CSV_PATH, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -85,7 +86,7 @@ def load_embeddings_csv():
             })
             embeddings_list.append(emb)
 
-    # Convert to torch tensor and FORCE CPU
+    # Convert to torch tensor and FORCE CPU because often loaded on GPU by default
     embeddings_tensor = torch.tensor(
         np.array(embeddings_list), 
         dtype=torch.float32,

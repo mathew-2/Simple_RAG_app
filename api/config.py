@@ -5,8 +5,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# # Get the project root directory (parent of api/)
+# PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Get the project root directory (parent of api/)
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = Path(__file__).parent.parent
+
+# Load .env from project root
+env
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 PDF_PATH = os.getenv("PDF_PATH", os.path.join(PROJECT_ROOT, "data", "manual.pdf"))
@@ -16,6 +22,10 @@ EMBED_CSV_PATH = os.getenv("EMBED_CSV_PATH", os.path.join(PROJECT_ROOT, "embeddi
 # OLLAMA_URL = os.getenv("OLLAMA_URL", "https://mathewmanoj13--ollama-rag-fastapi-app.modal.run")
 
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
+
+if not GEMINI_API_KEY:
+    print("[WARNING] GEMINI_API_KEY not set. Gemini model calls will fail.")
+    print("[INFO] Set it in a .env file or your environment variables.")
 
 # Validate paths exist
 if not os.path.exists(PDF_PATH):
