@@ -91,6 +91,58 @@ This generates `embeddings/chunks.csv` containing all embedded text chunks.
 
 ---
 
+##  API Usage
+
+### Available Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | API information and health check |
+| `/health` | GET | Service health status |
+| `/ask` | GET | Ask a question about the manual |
+| `/docs` | GET | Interactive API documentation |
+
+---
+
+### Query the API
+
+#### Using cURL
+
+**Basic query:**
+```bash
+curl "http://localhost:8000/ask?query=What+is+the+hydraulic+system"
+```
+
+**With custom parameters:**
+```bash
+curl "http://localhost:8000/ask?query=What+is+the+autopilot+system&top_k=10"
+```
+
+
+#### Using Postman
+
+1. **Open Postman** and create a new request
+
+2. **Set request type to GET**
+
+3. **Enter URL:**
+```
+   http://localhost:8000/ask
+```
+
+4. **Add Query Parameters:**
+   - Click on **"Params"** tab
+   - Add parameters:
+
+   | KEY | VALUE |
+   |-----|-------|
+   | query | What is the hydraulic system? |
+   | top_k | 5 |
+
+5. **Click "Send"**
+
+
+
 ## Usage
 
 ### Start the API server
@@ -118,11 +170,12 @@ Query the Boeing 737 manual with a question.
 **Response:**
 ```json
 {
-  "query" : "What is the maximum takeoff weight?",
-  "answer": "The maximum takeoff weight for the Boeing 737-800 is 174,200 lbs...",
-  "pages": [45, 46, 89],
-  "top_k_values":[0.58,0.43,0.32]
-  ""
+  "query": "What is the hydraulic system?",
+  "answer": "Based on the manual excerpts from pages 15 and 23, the hydraulic system provides power to...",
+  "pages": [15, 23, 34],
+  "num_chunks_used": 5,
+  "top_scores": ["0.7234", "0.6891", "0.6542", "0.6234", "0.6012"],
+  "model": "gemini-1.5-flash"
 }
 ```
 
