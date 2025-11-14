@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
-from retriever import search, pages_from_results
-from generator import answer_question
-from embedder import load_embeddings_csv
+from api.retriever import search, pages_from_results
+from api.generator import answer_question
+from api.embedder import load_embeddings_csv
 
 app = FastAPI(title="Boeing 737 Manual RAG API")
 

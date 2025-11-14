@@ -5,7 +5,8 @@ import torch
 from sentence_transformers import SentenceTransformer, util
 
 MODEL_NAME = "all-MiniLM-L6-v2"
-EMBED_CSV_PATH = "embeddings/chunks.csv"
+EMBED_CSV_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "embeddings", "chunks.csv")
+
 
 _model = None
 
@@ -56,6 +57,10 @@ def compute_embeddings_csv(chunks):
 
 def load_embeddings_csv():
     """Load chunks + embeddings from CSV and return as torch tensors on CPU."""
+
+    # Print the path being checked
+    print(f"[INFO] Looking for embeddings at: {EMBED_CSV_PATH}")
+
     if not os.path.exists(EMBED_CSV_PATH):
         raise FileNotFoundError(
             f"Embeddings file not found at {EMBED_CSV_PATH}. "

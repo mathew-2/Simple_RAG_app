@@ -4,7 +4,7 @@ from spacy.lang.en import English
 import re
 
 nlp = English()
-nlp.add_pipe("sentencizer")
+nlp.add_pipe("sentencizer")# this is to split whole text into sentences
 
 def text_formatter(text):
     """Clean page text."""
@@ -17,6 +17,7 @@ def load_pdf(path):
 
     for idx, page in tqdm(enumerate(doc), total=len(doc)):
         raw = text_formatter(page.get_text())
+        # page number starts from 1 instead of 0 (0 indexing happens here)
         pages.append({
             "page_number": idx + 1,
             "text": raw
@@ -33,7 +34,8 @@ def split_sentences(pages):
 def chunk_sentences(pages, max_size=10):
     """Chunk sentences into fixed-size blocks."""
     chunks = []
-
+    # for each page there no of sentences may give out no of tokens more than max token size
+    # for a model so we split the large amount of sentences into smaller sentence blocks/chunks
     for item in pages:
         sents = item["sentences"]
         grouped = [sents[i:i+max_size] for i in range(0, len(sents), max_size)]
