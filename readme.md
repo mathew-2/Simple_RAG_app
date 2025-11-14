@@ -21,19 +21,27 @@ The system extracts text from the manual, chunks it semantically, embeds the chu
 ## Repository Structure
 
 ```
-.
-├── main.py                    # FastAPI application
-├── document_processor.py      # PDF loading and text chunking
-├── embedder.py               # Embedding generation
-├── retriever.py              # Semantic search functionality
-├── generator.py              # Gemini answer generation
-├── config.py                 # Configuration settings
-├── requirements.txt          # Python dependencies
-├── .env.example             # Environment variables template
+simple_rag/
+├── api/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── embedder.py
+│   ├── retriever.py
+│   ├── generator.py
+│   ├── config.py
+│   └── document_processor.py
+├── embeddings/
+│   └── chunks.csv          
 ├── data/
-│   └── manual.pdf           # Boeing 737 manual (place here)
-└── embeddings/
-    └── chunks.csv           # Generated embeddings (auto-created)
+│   └── manual.pdf          
+├── modal_ollama.py
+├── build_embeddings.py
+├── test_csv.py
+├── requirements.txt
+├── .env
+├── .gitignore
+├── README.md
+└── .env                    
 ```
 
 ---
@@ -94,7 +102,7 @@ This generates `embeddings/chunks.csv` containing all embedded text chunks.
 
 ---
 
-## 🔧 Usage
+## Usage
 
 ### Start the API server
 
