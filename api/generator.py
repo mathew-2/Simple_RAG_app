@@ -23,7 +23,8 @@ def get_gemini_model(model_name="gemini-1.5-flash"):
 
 def answer_question(query, retrieved_chunks, model="gemini-1.5-flash"):
     """
-    Answer question based on retrieved chunks using Gemini.
+    Answer question based on retrieved chunks (max chunks would have equivalent
+      context length of 10 sentences) using Gemini.
     
     Args:
         query: The user's question
@@ -64,7 +65,8 @@ def answer_question(query, retrieved_chunks, model="gemini-1.5-flash"):
     print(context_text[:300] + "...")
     print("=" * 70 + "\n")
     
-    # Build prompt(this is the system prompt that guides the model's behavior)(note that gemini is more strict on safety)
+    # Build prompt(this is the system prompt that guides the model's behavior)
+    # (note that gemini is more strict on safety so sometimes technical content gets blocked)
     prompt = f"""You are a technical assistant for Boeing 737 aircraft operations manuals.
 
 Below are relevant excerpts from the Boeing 737 Operations Manual. Use ONLY this information to answer the question.
