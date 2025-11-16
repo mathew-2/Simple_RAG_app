@@ -1,8 +1,8 @@
 # build_embeddings.py
 
-from document_processor import load_pdf, split_sentences, chunk_sentences
-from embedder import compute_embeddings_csv
-from config import PDF_PATH
+from api.document_processor import load_pdf, split_sentences, chunk_sentences
+from api.embedder import compute_embeddings_csv
+from api.config import PDF_PATH
 
 if __name__ == "__main__":
     print("[STEP 1] Loading PDF...")
@@ -17,4 +17,4 @@ if __name__ == "__main__":
     print("[STEP 4] Computing & saving embeddings to CSV...")
     compute_embeddings_csv(chunks)
 
-    print("\n[✓] Embeddings generated successfully! Saved to embeddings/chunks.csv")
+    print("\n  Embeddings generated successfully! Saved to embeddings/chunks.csv")
