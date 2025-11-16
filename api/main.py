@@ -38,14 +38,8 @@ async def startup_event():
     except Exception as e:
         print(f"[ERROR] Failed to load embeddings: {e}")
 
-# @app.get("/")
-# def root():
-#     return {
-#         "message": "Boeing 737 Manual RAG API (Ollama Backend)",
-#         "chunks_loaded": len(chunks),
-#         "endpoint": "/ask?query=YOUR_QUESTION",
-#         "model": "llama3.2"
-#     }
+
+# this is just to check if the api is online
 
 @app.get("/")
 def root():
