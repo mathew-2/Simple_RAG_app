@@ -28,6 +28,7 @@ def compute_embeddings_csv(chunks):
     
     print(f"[INFO] Encoding {len(texts)} chunks...")
     # Force CPU and convert to tensor
+    # this is important to avoid device mismatch issues later on
     vectors = model.encode(
         texts, 
         convert_to_tensor=True, 
