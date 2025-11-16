@@ -41,5 +41,5 @@ if __name__ == "__main__":
     print(f"  PROJECT_ROOT: {PROJECT_ROOT}")
     print(f"  PDF_PATH: {PDF_PATH}")
     print(f"  EMBED_CSV_PATH: {EMBED_CSV_PATH}")
-    print(f"  OLLAMA_URL: {OLLAMA_URL}")
+    # print(f"  OLLAMA_URL: {OLLAMA_URL}")
     print(f"  GEMINI_API_KEY: {'Set' if GEMINI_API_KEY else 'Not set'}")
